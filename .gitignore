@@ -1,3 +1,8 @@
+# Our custom stuff:
+/build
+/videos
+
+# Github gitignore template for Python:
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
