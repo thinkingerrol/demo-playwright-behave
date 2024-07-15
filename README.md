@@ -13,6 +13,25 @@ Direct (first install the dependencies as done in Dockerfile):
 behave test --no-capture
 ```
 
+# Integration into CI systems
+
+If you use Jenkins, the Jenkinsfile might look like this:
+
+```Jenkinsfile
+try {
+  sh './build.sh'
+}
+finally {
+  archiveArtifacts 'build/**/*'
+}
+```
+
+in the Build Artifacts you should then see files like:
+* 00001__passed__end_to_end.feature__Website_is_working.webm
+
+or:
+* 00001__failed__end_to_end.feature__Website_is_working.webm
+
 # Example output
 
 ```bash
