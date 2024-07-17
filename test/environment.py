@@ -23,7 +23,7 @@ def before_all(context):
 
 def before_scenario(context, scenario):
     logging.info(f'{scenario.feature}.{scenario}')
-    context.browser = context.playwright.chromium.launch(headless=True)
+    context.browser = context.playwright.chromium.launch(headless=False)
     context.browser_context = context.browser.new_context(record_video_dir=VIDEO_DIR)
     context.page = context.browser_context.new_page()
 
