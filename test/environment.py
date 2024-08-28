@@ -11,20 +11,26 @@ SCENARIO_COUNTER = 0
 def before_all(context):
     for subdir in ['build', 'videos']:
         os.makedirs(subdir, exist_ok=True)
-    python_log = logging.FileHandler(filename='build/python.log')
+
+    setup_logging(context, 'build/python.log'
+
+    context.playwright = sync_playwright().start()
+
+
+def setup_logging(context, filename):
+    python_log = logging.FileHandler(filename)
     python_log.setLevel(logging.INFO)
     python_log.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     logging.getLogger('').addHandler(python_log)
     context.config.setup_logging()
     logging.info('============ started behave ====================================')
 
-    context.playwright = sync_playwright().start()
-
 
 def before_scenario(context, scenario):
     logging.info(f'{scenario.feature}.{scenario}')
     context.browser = context.playwright.chromium.launch(headless=False)
-    context.browser_context = context.browser.new_context(record_video_dir=VIDEO_DIR)
+    context.browser_context = context.browser.new_context(record_video_dir=VIDEO_DIR,
+                                                          locale='en-US')
     context.page = context.browser_context.new_page()
 
 
@@ -54,12 +60,15 @@ def after_step(context, step):
 
 
 def allow_post_mortems(context, step):
-    '''
+    """
     Allow post-mortem debugging, if enabled via environment.
-    This short illustrated answer explains how it works and why it is so good: https://stackoverflow.com/a/61690358/5140740
-    '''
+
+    The power of post-mortem debugging: https://almarklein.org/pm-debugging.html
+    """
     if 'post_mortem' in os.environ and step.status == 'failed':
         # Similar to 'behave --no-capture' calling stop_capture() ensures visibility of pdb's prompts,
         # while still supporting capture until an uncaught error occurs (yes, relying on behave's internal function)
+        # https://stackoverflow.com/a/61690358/5140740
         context._runner.stop_capture()  # pylint: disable=protected-access
         pdb.post_mortem(step.exc_traceback)
+
