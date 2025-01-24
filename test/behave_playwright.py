@@ -101,9 +101,8 @@ class Playwright:
             const overlay = document.createElement('playwright-overlay');
             overlay.id = 'playwright-overlay';
             overlay.style.position = 'fixed';
-            overlay.style.bottom = '100px';
+            overlay.style.bottom = '50px';
             overlay.style.left = '10px';
-            // https://iamvishnu.com/posts/please-dont-force-dark-mode
             overlay.style.backgroundColor = 'rgba(202, 202, 202, 1)';
             overlay.style.color = 'rgba(25, 25, 25, 1)';
             overlay.style.padding = '10px';

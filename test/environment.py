@@ -1,12 +1,4 @@
-import logging
-import os
-import pdb
-
-from playwright.sync_api import sync_playwright
 from behave_playwright import Playwright
-
-VIDEO_DIR = 'videos/'
-SCENARIO_COUNTER = 0
 
 
 def before_all(context):
@@ -19,6 +11,7 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     try:
+        # implement your cleanup here, to ensure repeatability of the tests
         pass
     finally:
         Playwright.after_scenario(context, scenario)
