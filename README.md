@@ -13,7 +13,7 @@ Took 0m0.840s
 
 [doc/00001__passed__end_to_end.feature__Website_is_working.webm](doc/00001__passed__end_to_end.feature__Website_is_working.webm)
 <video controls width="600">
-  <source src="https://raw.githubusercontent.com/thinkingerrol/demo-playwright-behave/doc/00001__passed__end_to_end.feature__Website_is_working.webm" type="video/webm">
+  <source src="https://github.com/thinkingerrol/demo-playwright-behave/raw/refs/heads/main/doc/00001__passed__end_to_end.feature__Website_is_working.webm" type="video/webm">
   Your browser does not support the video tag.
 </video>
 
