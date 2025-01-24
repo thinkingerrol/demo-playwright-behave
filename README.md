@@ -1,7 +1,15 @@
 # demo-playwright-behave
 A tiny but working example e2e test suite using [Playwright]/Python with [behave] interpreting a [Gherkin] feature file.
 
-Output is a video file and a summary on the console:
+# Quick start
+
+```bash
+./build.py
+```
+
+# Output
+
+Output is a [video file](doc/00001__passed__end_to_end.feature__Website_is_working.webm) and a summary:
 ```
 1 feature passed, 0 failed, 0 skipped
 1 scenario passed, 0 failed, 0 skipped
@@ -9,16 +17,20 @@ Output is a video file and a summary on the console:
 Took 0m0.840s
 ```
 
+A separate video file is collected for each scenario: named according to the execution order, result (passed/failed), feature file and scenario name.
+```bash
+$ ls build/videos
+00001__passed__end_to_end.feature__Website_is_working.webm
+# or if the test failed, we see it in the name as well:
+00001__failed__end_to_end.feature__Website_is_working.webm
+```
+
 Additionally, if you use [Jenkins](https://www.jenkins.io/) and the [cucumber-reports-plugin](https://github.com/jenkinsci/cucumber-reports-plugin)
 is installed, a green "Cucumber reports" button should appear in the Classical Jenkins UI, showing a report like:
 
 <img src="doc/feature-overview.png">
 
-# Example video file
-
-[doc/00001__passed__end_to_end.feature__Website_is_working.webm](doc/00001__passed__end_to_end.feature__Website_is_working.webm)
-
-# Quick start
+# Usage
 
 ```bash
 $ ./build.py --help
@@ -90,20 +102,14 @@ try {
   sh './build.py'
 }
 finally {
+  // collect python.log, test videos and for failed scenarios, trace zip files for time-travel debugging
+  // which can be opened with "playwright show-trace build/videos/traces/my-failed-scenario.zip"
   archiveArtifacts 'build/**/*'
   stage('Generate HTML report') {
       cucumber reportTitle: 'Test report',
                fileIncludePattern: '**/*.json',
   }
 }
-```
-
-in the Build Artifacts you should then see files like:
-```
-* 00001__passed__end_to_end.feature__Website_is_working.webm
-
-or:
-* 00001__failed__end_to_end.feature__Website_is_working.webm
 ```
 
 [behave]: https://behave.readthedocs.io
