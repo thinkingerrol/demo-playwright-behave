@@ -29,10 +29,12 @@ finally {
 ```
 
 in the Build Artifacts you should then see files like:
+```
 * 00001__passed__end_to_end.feature__Website_is_working.webm
 
 or:
 * 00001__failed__end_to_end.feature__Website_is_working.webm
+```
 
 [behave]: https://behave.readthedocs.io
 [Dockerfile]: test/Dockerfile
