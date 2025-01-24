@@ -86,6 +86,10 @@ try {
 }
 finally {
   archiveArtifacts 'build/**/*'
+  stage('Generate HTML report') {
+      cucumber reportTitle: 'Test report',
+               fileIncludePattern: '**/*.json',
+  }
 }
 ```
 
@@ -96,6 +100,11 @@ in the Build Artifacts you should then see files like:
 or:
 * 00001__failed__end_to_end.feature__Website_is_working.webm
 ```
+
+Also if the cucumber-reports-plugin is installed, a green "Cucumber reports" button should appear in the Classical Jenkins UI,
+showing a report like:
+
+<img src="doc/feature-overview.png">
 
 [behave]: https://behave.readthedocs.io
 [Dockerfile]: test/Dockerfile
