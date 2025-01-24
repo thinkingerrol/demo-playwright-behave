@@ -11,18 +11,8 @@ Took 0m0.840s
 
 # Quick start
 
-Dockerized:
 ```bash
-./build.sh
-```
-
-Direct (first install the dependencies as done in [Dockerfile]).
-Use this if you want to see the browser window or interact with a `breakpoint()`:
-```bash
-behave test --no-capture
-
-# when running in Github Codespaces or any headless linux box, prefix the command with xvfb-run
-# if xvfb-run is not installed, try to: sudo apt-get update && sudo apt-get install xvfb
+./build.py
 ```
 
 # Integration into CI systems
@@ -31,7 +21,7 @@ If you use Jenkins, the Jenkinsfile might look like this:
 
 ```Jenkinsfile
 try {
-  sh './build.sh'
+  sh './build.py'
 }
 finally {
   archiveArtifacts 'build/**/*'

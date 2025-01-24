@@ -1,6 +1,7 @@
 from behave import then, when
 from playwright.sync_api import expect
 
+
 @when('I open the url {url}')
 def when_open_url(context, url):
     context.page.goto(url)

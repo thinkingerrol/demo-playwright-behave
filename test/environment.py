@@ -1,74 +1,25 @@
-import logging
-import os
-import pdb
-
-from playwright.sync_api import sync_playwright
-
-VIDEO_DIR = 'videos/'
-SCENARIO_COUNTER = 0
+from behave_playwright import Playwright
 
 
 def before_all(context):
-    for subdir in ['build', 'videos']:
-        os.makedirs(subdir, exist_ok=True)
-
-    setup_logging(context, 'build/python.log'
-
-    context.playwright = sync_playwright().start()
-
-
-def setup_logging(context, filename):
-    python_log = logging.FileHandler(filename)
-    python_log.setLevel(logging.INFO)
-    python_log.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-    logging.getLogger('').addHandler(python_log)
-    context.config.setup_logging()
-    logging.info('============ started behave ====================================')
+    Playwright.before_all(context)
 
 
 def before_scenario(context, scenario):
-    logging.info(f'{scenario.feature}.{scenario}')
-    context.browser = context.playwright.chromium.launch(headless=False)
-    context.browser_context = context.browser.new_context(record_video_dir=VIDEO_DIR,
-                                                          locale='en-US')
-    context.page = context.browser_context.new_page()
+    Playwright.before_scenario(context, scenario)
 
 
 def after_scenario(context, scenario):
-    global SCENARIO_COUNTER  # pylint: disable=global-statement
-
     try:
-        SCENARIO_COUNTER += 1
-
+        # implement your cleanup here, to ensure repeatability of the tests
+        pass
     finally:
-        context.page.close()
-        context.browser_context.close()
-        context.browser.close()
+        Playwright.after_scenario(context, scenario)
 
-        video_path = context.page.video.path()
-        video_path_new = f'{VIDEO_DIR}/{SCENARIO_COUNTER:05}__'
-        video_path_new += scenario.status.name + '__'  # passed or failed
-        video_path_new += scenario.filename.split('/')[-1] + '__'
-        video_path_new += scenario.name.replace(' ', '_') + '.'
-        video_path_new += video_path.split('.')[-1]
-        os.rename(video_path, video_path_new)
-        logging.info(f'saved {video_path}')
+
+def before_step(context, step):
+    Playwright.before_step(context, step)
 
 
 def after_step(context, step):
-    allow_post_mortems(context, step)
-
-
-def allow_post_mortems(context, step):
-    """
-    Allow post-mortem debugging, if enabled via environment.
-
-    The power of post-mortem debugging: https://almarklein.org/pm-debugging.html
-    """
-    if 'post_mortem' in os.environ and step.status == 'failed':
-        # Similar to 'behave --no-capture' calling stop_capture() ensures visibility of pdb's prompts,
-        # while still supporting capture until an uncaught error occurs (yes, relying on behave's internal function)
-        # https://stackoverflow.com/a/61690358/5140740
-        context._runner.stop_capture()  # pylint: disable=protected-access
-        pdb.post_mortem(step.exc_traceback)
-
+    Playwright.after_step(context, step)
