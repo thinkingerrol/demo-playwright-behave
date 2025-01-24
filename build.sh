@@ -2,16 +2,30 @@
 
 set -euox pipefail
 
-mkdir -p build
-CONTAINER="playwright-e2e"
-IMAGE="$CONTAINER-local"
-echo "Building image: $IMAGE"
-docker build test --tag $IMAGE
-echo "Recreating and running container: $CONTAINER"
-docker container rm -f $CONTAINER || true >/dev/null 2>&1
-docker run -t --network=host --name $CONTAINER $IMAGE
+main() {
+    BUILD_CONTEXT="build/context"
+    CONTAINER="playwright-e2e"
+    IMAGE="$CONTAINER-local"
 
-# TODO implement error handling so that the following happens even in case of errors:
-docker cp $CONTAINER:/test/videos build
-docker cp $CONTAINER:/test/build/python.log build
-docker container rm $CONTAINER >/dev/null
+    echo "Building image: $IMAGE"
+    rm -rf $BUILD_CONTEXT
+    mkdir -p $BUILD_CONTEXT
+    cp -r test $BUILD_CONTEXT
+    docker build $BUILD_CONTEXT -f $BUILD_CONTEXT/test/Dockerfile --tag $IMAGE
+
+    echo "Recreating and running container: $CONTAINER"
+    docker container rm -f $CONTAINER 2>/dev/null
+    docker run -t --network=host --name $CONTAINER $IMAGE
+}
+
+cleanup() {
+    echo "Copying test artifacts..."
+    docker cp $CONTAINER:/videos build
+    docker cp $CONTAINER:/build .
+
+    echo "Removing container..."
+    docker container rm $CONTAINER
+}
+trap cleanup EXIT
+
+main

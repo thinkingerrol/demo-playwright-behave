@@ -12,7 +12,7 @@ def before_all(context):
     for subdir in ['build', 'videos']:
         os.makedirs(subdir, exist_ok=True)
 
-    setup_logging(context, 'build/python.log'
+    setup_logging(context, 'build/python.log')
 
     context.playwright = sync_playwright().start()
 
