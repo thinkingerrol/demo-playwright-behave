@@ -46,6 +46,7 @@ def main():
 
         print("Removing container...")
         sh(f"docker container rm {CONTAINER}")
+        sh("cat build/behave-report.json | test/behave2cucumber.py > build/cucumber-report.json")
 
 
 def sh(command):

@@ -1,7 +1,7 @@
 # demo-playwright-behave
 A tiny but working example e2e test suite using [Playwright]/Python with [behave] interpreting a [Gherkin] feature file.
 
-Output is a video file and a summary on the console:
+Output is a video file, a json file compatible with [Jenkins cucumber-reports-plugin](https://github.com/jenkinsci/cucumber-reports-plugin) and a summary on the console:
 ```
 1 feature passed, 0 failed, 0 skipped
 1 scenario passed, 0 failed, 0 skipped
