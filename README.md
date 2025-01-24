@@ -12,6 +12,10 @@ Took 0m0.840s
 # Example video file
 
 [doc/00001__passed__end_to_end.feature__Website_is_working.webm](doc/00001__passed__end_to_end.feature__Website_is_working.webm)
+<video controls width="600">
+  <source src="doc/00001__passed__end_to_end.feature__Website_is_working.webm" type="video/webm">
+  Your browser does not support the video tag.
+</video>
 
 # Quick start
 
