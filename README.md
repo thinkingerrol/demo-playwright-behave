@@ -12,7 +12,7 @@ Took 0m0.840s
 # Quick start
 
 ```bash
-./build.sh
+./build.py
 ```
 
 # Integration into CI systems
