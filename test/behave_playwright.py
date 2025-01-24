@@ -93,7 +93,7 @@ class Playwright:
 
         Useful for self-explanatory videos, so anyone can understand a test without looking at logs or feature files.
         """
-        # some feature files contain literal \n like this, so we escape them, to show without any interpretation:
+        # some feature files may contain literal \n like this, so we escape them, to show without any interpretation:
         # "de": "über Berliner Tor \n Hauptbahnhof Nord"
         message = message.replace('\\n', '\\\\n')
 
